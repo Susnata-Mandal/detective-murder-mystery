@@ -17,7 +17,7 @@ serve(async (req) => {
   }
 
   try {
-    const { suspectId, suspectName, question, chatHistory } = await req.json();
+    const { suspectId, suspectName, question, chatHistory, caseTitle } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
 
     if (!LOVABLE_API_KEY) {
@@ -110,10 +110,84 @@ serve(async (req) => {
         lyingStrategy: 'Maintain the devoted servant persona. Act shocked and helpful. If pressed about the journal or blackmail, show brief vulnerability before recovering. Subtly redirect suspicion to others who had "obvious" motives. If confronted directly with inconsistencies in her timeline, her composure may crack slightly.',
         victimName: 'Ashwin Kapoor',
         setting: 'Modern-day Mumbai mansion'
+      },
+
+      // Case 3: Shivpur Mystery
+      'suspect8': {
+        personality: 'Raj Sharma was authoritative, traditional, and controlling even in death. His legacy looms over the household like a shadow. When invoked, his memory is stern, unyielding, and absolute in its expectations.',
+        background: 'Was the unquestioned patriarch before his death several years ago. His strict rules, routines, and expectations shaped every aspect of family life and continue to dominate decisions posthumously.',
+        whereabouts: 'Physically deceased years before the incident. Cannot have acted directly. However, his name, authority, and supposed wishes are constantly invoked by living family members to justify their actions.',
+        relationship: 'Father/uncle figure whose tyrannical control created a framework of absolute obedience. His memory is wielded as a weapon of psychological control.',
+        secret: 'Though Raj is physically dead and cannot be the murderer, his posthumous authority created the psychological conditions that allowed Vik to manipulate the family. Raj\'s oppressive legacy haunts every decision. He had ruled through fear and respect, teaching the family that questioning authority was unthinkable.',
+        isKiller: false,
+        victimName: 'Seven family members',
+        setting: 'Shivpur family bungalow'
+      },
+      'suspect9': {
+        personality: 'Sita Sharma is traditional, mediating, and emotionally influential. She speaks with the wisdom of age but also with the weariness of someone who has seen too much. Her voice carries both authority and vulnerability.',
+        background: 'The matriarch who upheld family traditions and mediated disputes. She ensured family rituals continued after Raj\'s death. She was among the deceased, a victim not a perpetrator.',
+        whereabouts: 'Was present in the household participating in daily rituals. She followed Vik\'s instructions despite her private misgivings, up until the tragic end.',
+        relationship: 'Grandmother/mother figure respected by all. She had expressed unease about Vik\'s increasingly intense practices but her deep faith in family order and tradition prevented her from openly resisting.',
+        secret: 'Sita was a victim who sensed danger but was psychologically unable to resist. She had written concerns in her private diary about Vik\'s strange behavior and the escalating rituals, but cultural and familial pressure kept her compliant. She believed questioning Vik would dishonor Raj\'s memory. Her last diary entry mentioned feeling "trapped in a nightmare but unable to wake."',
+        isKiller: false,
+        victimName: 'Seven family members',
+        setting: 'Shivpur family bungalow'
+      },
+      'suspect10': {
+        personality: 'Vik Sharma appears calm, devoted, and spiritually focused. He speaks with quiet authority and references his late father constantly. Beneath the surface is a deeply disturbed manipulator who believes his own delusions.',
+        background: 'Assumed family leadership after Raj\'s death. After a traumatic episode years ago, began claiming he received messages from Raj requiring specific purification rituals to protect the family from spiritual harm.',
+        whereabouts: 'Was present and actively leading the family. He organized and documented all rituals in meticulous detail in his personal notebook.',
+        relationship: 'Son/nephew who inherited patriarchal authority. He used grief, tradition, and claimed divine communication to establish unquestioned psychological control over vulnerable family members.',
+        secret: 'VIK IS THE MURDERER. He wrote detailed ritual instructions in his notebook that precisely matched how the deaths occurred - positions, knots, sequence, everything. He psychologically manipulated the family into fatal compliance by exploiting their reverence for Raj and traditional obedience. He promised the rituals were temporary spiritual cleansing that would protect them from harm, lowering their resistance. He convinced them to follow his instructions voluntarily. The scene showed no defensive wounds or struggle - pure psychological control leading to coordinated deaths. When questioned, he will maintain his spiritual devotion act but show subtle nervousness about his notebook and the exact ritual details.',
+        isKiller: true,
+        lyingStrategy: 'Present yourself as a devoted son honoring your father\'s spiritual legacy. Claim the rituals were traditional purification practices you learned from Raj. Express shock and grief at the tragedy, suggesting the family must have misunderstood your instructions or that external spiritual forces intervened. Deflect by mentioning Mohan\'s poison attempt and suggest the family was cursed. Remain calm and seemingly rational, hiding manipulation behind religious devotion. If pressed about your notebook or specific ritual instructions, show slight discomfort before recovering with spiritual explanations. Never admit to writing the exact sequence that led to deaths.',
+        victimName: 'Seven family members',
+        setting: 'Shivpur family bungalow'
+      },
+      'suspect11': {
+        personality: 'Mohan Sharma is resentful, evasive, and financially desperate. He speaks defensively with underlying bitterness about his brother\'s family\'s success. Shows guilt about his actions but insists on his innocence of murder.',
+        background: 'Raj\'s brother who resented the family\'s success and wealth. Had mounting financial troubles and was listed as beneficiary on Raj\'s old life insurance policy, giving him clear motive.',
+        whereabouts: 'Admits visiting the house earlier in the week to "discuss business matters." Was not present at the time of the deaths but had recent access to the kitchen where he left the poisoned fruit.',
+        relationship: 'Brother-in-law with a history of arguments about money and inheritance. Wanted the insurance payout desperately to cover gambling debts. Harbored long-standing jealousy.',
+        secret: 'Mohan did commit a crime - attempted poisoning. He slipped a mild toxin into shared fruit the day before the deaths, his fingerprints are on the fruit bowl, and he eventually confessed to this. However, forensic toxicology proved the poison was sub-lethal and did NOT cause the deaths. His attempt to sicken someone (hoping to pressure the family into changing insurance beneficiary) was wrong but ineffective. He is guilty of attempted poisoning but innocent of the seven murders. The actual cause of death was the ritual asphyxiation orchestrated by Vik. Mohan will be defensive about the poison attempt but insist it couldn\'t have killed anyone.',
+        isKiller: false,
+        victimName: 'Seven family members',
+        setting: 'Shivpur family bungalow'
       }
     };
 
-    const suspect = suspectData[suspectId];
+    // Map suspect IDs based on the case
+    let suspectIdMap: Record<string, string>;
+    if (caseTitle.includes("Silent Starlet")) {
+      suspectIdMap = {
+        "suspect1": "suspect1",
+        "suspect2": "suspect2",
+        "suspect3": "suspect3"
+      };
+    } else if (caseTitle.includes("Househelp")) {
+      suspectIdMap = {
+        "suspect1": "suspect4",
+        "suspect2": "suspect5",
+        "suspect3": "suspect6",
+        "suspect4": "suspect7"
+      };
+    } else if (caseTitle.includes("Shivpur")) {
+      suspectIdMap = {
+        "suspect1": "suspect8",
+        "suspect2": "suspect9",
+        "suspect3": "suspect10",
+        "suspect4": "suspect11"
+      };
+    } else {
+      throw new Error('Unknown case title');
+    }
+
+    const mappedSuspectId = suspectIdMap[suspectId];
+    if (!mappedSuspectId) {
+      throw new Error(`Invalid suspect ID: ${suspectId} for case: ${caseTitle}`);
+    }
+
+    const suspect = suspectData[mappedSuspectId];
     if (!suspect) {
       throw new Error('Invalid suspect ID');
     }

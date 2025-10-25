@@ -72,4 +72,44 @@ export const househelpCase: CaseData = {
   correctSuspect: "suspect4" // Priya Deshpande is the killer
 };
 
-export const allCases = [mysteryCase, househelpCase];
+export const shivpurCase: CaseData = {
+  title: "The Shivpur Mystery",
+  description: "It was a humid morning in Shivpur when seven members of the same household were found dead in a ritual-like arrangement. The investigation revealed a darker manipulation beneath the surface. Four central figures emerge as key to understanding this tragedy: the deceased patriarch whose authority still haunts the family, the matriarch who sensed danger, the younger son who claimed to channel messages, and the resentful brother with financial motives.",
+  suspects: [
+    {
+      id: "suspect1",
+      name: "Raj Sharma",
+      role: "Deceased Patriarch",
+      bio: "The unquestioned head of household before his death years ago. His rules and expectations continued to shape the family even after death, creating a psychological framework of control.",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+      questionsRemaining: 3
+    },
+    {
+      id: "suspect2",
+      name: "Sita Sharma",
+      role: "Matriarch",
+      bio: "The elder woman who upheld family traditions. Among the deceased, she had expressed unease about recent intense practices but her faith in family order kept her from resisting.",
+      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop",
+      questionsRemaining: 3
+    },
+    {
+      id: "suspect3",
+      name: "Vik Sharma",
+      role: "Younger Son",
+      bio: "Took on family leadership after Raj's death. Claims to receive messages from his late father, organizing increasingly intense rituals he insisted would 'protect' the family.",
+      image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop",
+      questionsRemaining: 3
+    },
+    {
+      id: "suspect4",
+      name: "Mohan Sharma",
+      role: "Resentful Brother",
+      bio: "Raj's brother who resented the family. Recent financial troubles and a life insurance policy gave him motive. Admitted to slipping mild poison into fruit, but forensics show it was sub-lethal.",
+      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop",
+      questionsRemaining: 3
+    }
+  ],
+  correctSuspect: "suspect3" // Vik Sharma is the killer
+};
+
+export const allCases = [mysteryCase, househelpCase, shivpurCase];

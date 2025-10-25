@@ -79,7 +79,7 @@ const CaseFile = () => {
   };
 
   const totalQuestionsRemaining = currentCase.suspects.reduce((sum, s) => sum + s.questionsRemaining, 0);
-  const caseColorClass = selectedCaseIndex === 0 ? 'case-hollywood' : 'case-mumbai';
+  const caseColorClass = selectedCaseIndex === 0 ? 'case-hollywood' : selectedCaseIndex === 1 ? 'case-mumbai' : 'case-shivpur';
 
   return (
     <div className={`min-h-screen p-8 ${caseColorClass}`}>
@@ -177,6 +177,7 @@ const CaseFile = () => {
           messages={conversations[selectedSuspect.id] || []}
           onClose={() => setSelectedSuspect(null)}
           onQuestionAsked={handleQuestionAsked}
+          caseTitle={currentCase.title}
         />
       )}
 

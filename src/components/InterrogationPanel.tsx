@@ -11,13 +11,15 @@ interface InterrogationPanelProps {
   messages: Message[];
   onClose: () => void;
   onQuestionAsked: (suspectId: string, question: string, answer: string) => void;
+  caseTitle: string;
 }
 
 export const InterrogationPanel = ({ 
   suspect, 
   messages, 
   onClose,
-  onQuestionAsked 
+  onQuestionAsked,
+  caseTitle
 }: InterrogationPanelProps) => {
   const [question, setQuestion] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +42,8 @@ export const InterrogationPanel = ({
           suspectId: suspect.id,
           suspectName: suspect.name,
           question: question.trim(),
-          chatHistory: messages
+          chatHistory: messages,
+          caseTitle: caseTitle
         }
       });
 
