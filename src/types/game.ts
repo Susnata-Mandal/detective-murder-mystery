@@ -17,6 +17,7 @@ export interface CaseData {
   description: string;
   suspects: Suspect[];
   correctSuspect: string;
+  theme?: 'hollywood' | 'mumbai';
 }
 
 export interface GameState {

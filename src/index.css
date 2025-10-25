@@ -18,7 +18,7 @@ All colors MUST be HSL.
     --popover: 25 18% 10%;
     --popover-foreground: 40 30% 90%;
 
-    /* Burnished gold accent */
+    /* Burnished gold accent for Case 1 */
     --primary: 42 78% 55%;
     --primary-foreground: 25 22% 8%;
 
@@ -29,9 +29,9 @@ All colors MUST be HSL.
     --muted: 25 15% 18%;
     --muted-foreground: 40 15% 60%;
 
-    /* Aged parchment */
-    --accent: 40 35% 75%;
-    --accent-foreground: 25 22% 8%;
+    /* Deep purple for Case 2 */
+    --accent: 280 65% 60%;
+    --accent-foreground: 280 95% 95%;
 
     /* Crimson red for alerts */
     --destructive: 0 72% 51%;
@@ -47,6 +47,18 @@ All colors MUST be HSL.
     --leather: 30 28% 18%;
     --vintage-paper: 40 35% 85%;
     --noir-shadow: 0 0% 0%;
+  }
+
+  /* Case-specific color overrides */
+  .case-mumbai {
+    --ring: 280 65% 60%;
+  }
+
+  .case-mumbai .noir-glow {
+    box-shadow: 
+      0 0 20px hsla(280, 65%, 60%, 0.3),
+      0 0 40px hsla(280, 65%, 60%, 0.15),
+      inset 0 0 60px hsla(280, 65%, 60%, 0.05);
   }
 
   * {

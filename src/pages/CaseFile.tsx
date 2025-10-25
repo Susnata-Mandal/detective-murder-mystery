@@ -4,17 +4,23 @@ import { Button } from '@/components/ui/button';
 import { SuspectCard } from '@/components/SuspectCard';
 import { InterrogationPanel } from '@/components/InterrogationPanel';
 import { AccusationModal } from '@/components/AccusationModal';
-import { mysteryCase } from '@/data/caseData';
-import { Suspect, Message } from '@/types/game';
-import { Scale } from 'lucide-react';
+import { allCases } from '@/data/caseData';
+import { Suspect, Message, CaseData } from '@/types/game';
+import { Scale, FileText } from 'lucide-react';
 
 const CaseFile = () => {
   const navigate = useNavigate();
   const [detectiveName, setDetectiveName] = useState('');
-  const [suspects, setSuspects] = useState<Suspect[]>(mysteryCase.suspects);
+  const [selectedCaseIndex, setSelectedCaseIndex] = useState(0);
+  const [casesData, setCasesData] = useState<CaseData[]>(allCases.map(c => ({
+    ...c,
+    suspects: c.suspects.map(s => ({ ...s }))
+  })));
   const [selectedSuspect, setSelectedSuspect] = useState<Suspect | null>(null);
   const [conversations, setConversations] = useState<Record<string, Message[]>>({});
   const [showAccusationModal, setShowAccusationModal] = useState(false);
+
+  const currentCase = casesData[selectedCaseIndex];
 
   useEffect(() => {
     const name = localStorage.getItem('detectiveName');
@@ -24,6 +30,11 @@ const CaseFile = () => {
       setDetectiveName(name);
     }
   }, [navigate]);
+
+  const handleCaseChange = (index: number) => {
+    setSelectedCaseIndex(index);
+    setSelectedSuspect(null);
+  };
 
   const handleInterrogate = (suspect: Suspect) => {
     setSelectedSuspect(suspect);
@@ -40,53 +51,98 @@ const CaseFile = () => {
       ]
     }));
 
-    // Decrease questions remaining
-    setSuspects(prev => prev.map(s => 
-      s.id === suspectId 
-        ? { ...s, questionsRemaining: s.questionsRemaining - 1 }
-        : s
+    // Decrease questions remaining for this case's suspects
+    setCasesData(prev => prev.map((caseData, idx) => 
+      idx === selectedCaseIndex
+        ? {
+            ...caseData,
+            suspects: caseData.suspects.map(s => 
+              s.id === suspectId 
+                ? { ...s, questionsRemaining: s.questionsRemaining - 1 }
+                : s
+            )
+          }
+        : caseData
     ));
   };
 
   const handleAccuse = (suspectId: string) => {
-    const isCorrect = suspectId === mysteryCase.correctSuspect;
+    const isCorrect = suspectId === currentCase.correctSuspect;
     navigate('/outcome', { 
       state: { 
         won: isCorrect, 
-        accusedSuspect: suspects.find(s => s.id === suspectId),
-        correctSuspect: suspects.find(s => s.id === mysteryCase.correctSuspect)
+        accusedSuspect: currentCase.suspects.find(s => s.id === suspectId),
+        correctSuspect: currentCase.suspects.find(s => s.id === currentCase.correctSuspect),
+        caseTitle: currentCase.title
       } 
     });
   };
 
-  const totalQuestionsRemaining = suspects.reduce((sum, s) => sum + s.questionsRemaining, 0);
+  const totalQuestionsRemaining = currentCase.suspects.reduce((sum, s) => sum + s.questionsRemaining, 0);
+  const caseColorClass = selectedCaseIndex === 0 ? 'case-hollywood' : 'case-mumbai';
 
   return (
-    <div className="min-h-screen p-8">
+    <div className={`min-h-screen p-8 ${caseColorClass}`}>
       <div className="max-w-7xl mx-auto space-y-8 animate-fade-in">
         {/* Header */}
-        <div className="case-file p-8 text-center">
+        <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
             <Scale className="w-10 h-10 text-primary" />
-            <h1 className="font-display text-5xl text-primary">{mysteryCase.title}</h1>
+            <h1 className="font-display text-5xl text-primary">Detective's Case Files</h1>
+            <Scale className="w-10 h-10 text-primary" />
           </div>
-          <p className="text-muted-foreground text-sm uppercase tracking-widest mb-4">
+          <p className="text-muted-foreground text-sm uppercase tracking-widest mb-2">
             Detective: {detectiveName}
           </p>
+          <p className="text-muted-foreground italic">Interrogate wisely. Justice awaits.</p>
+        </div>
+
+        {/* Case Selection */}
+        <div className="flex justify-center gap-4 mb-8">
+          {allCases.map((caseItem, index) => (
+            <Button
+              key={index}
+              onClick={() => handleCaseChange(index)}
+              variant={selectedCaseIndex === index ? "default" : "outline"}
+              className={`transition-smooth ${
+                selectedCaseIndex === index 
+                  ? index === 0 
+                    ? 'bg-primary text-primary-foreground hover:bg-primary/90' 
+                    : 'bg-accent text-accent-foreground hover:bg-accent/90'
+                  : ''
+              }`}
+            >
+              <FileText className="w-4 h-4 mr-2" />
+              {caseItem.title}
+            </Button>
+          ))}
+        </div>
+
+        {/* Case Overview */}
+        <div className="case-file p-8 text-center">
+          <h2 className={`font-display text-4xl mb-4 ${
+            selectedCaseIndex === 0 ? 'text-primary' : 'text-accent'
+          }`}>
+            {currentCase.title}
+          </h2>
           <div className="max-w-3xl mx-auto">
             <p className="text-foreground leading-relaxed text-lg">
-              {mysteryCase.description}
+              {currentCase.description}
             </p>
           </div>
         </div>
 
         {/* Suspects Grid */}
         <div>
-          <h2 className="font-display text-3xl text-center text-primary mb-6">
+          <h2 className={`font-display text-3xl text-center mb-6 ${
+            selectedCaseIndex === 0 ? 'text-primary' : 'text-accent'
+          }`}>
             Suspects
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {suspects.map(suspect => (
+          <div className={`grid grid-cols-1 gap-6 ${
+            currentCase.suspects.length === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2 lg:grid-cols-4'
+          }`}>
+            {currentCase.suspects.map(suspect => (
               <SuspectCard
                 key={suspect.id}
                 suspect={suspect}
@@ -99,7 +155,9 @@ const CaseFile = () => {
         {/* Actions */}
         <div className="text-center space-y-4">
           <p className="text-muted-foreground">
-            Total questions remaining: <span className="text-primary font-bold">{totalQuestionsRemaining}</span>
+            Total questions remaining: <span className={`font-bold ${
+              selectedCaseIndex === 0 ? 'text-primary' : 'text-accent'
+            }`}>{totalQuestionsRemaining}</span>
           </p>
           <Button
             size="lg"
@@ -125,7 +183,7 @@ const CaseFile = () => {
       {/* Accusation Modal */}
       {showAccusationModal && (
         <AccusationModal
-          suspects={suspects}
+          suspects={currentCase.suspects}
           onAccuse={handleAccuse}
           onClose={() => setShowAccusationModal(false)}
         />

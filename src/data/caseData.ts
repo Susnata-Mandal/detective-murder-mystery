@@ -31,3 +31,45 @@ export const mysteryCase: CaseData = {
   ],
   correctSuspect: "suspect2" // Diana Frost is the killer
 };
+
+export const househelpCase: CaseData = {
+  title: "The Househelp Murderer",
+  description: "Wealthy businessman Ashwin Kapoor was found dead in his study at midnight, with signs of struggle and a mysterious journal missing from his desk. The cursed artifact he possessed has vanished. Four individuals with deep connections to the victim remain in the mansion. Each harbors dark secrets and powerful motives. Uncover who struck the fatal blow.",
+  suspects: [
+    {
+      id: "suspect1",
+      name: "Anjali Sinha",
+      role: "Volatile Fiancée",
+      bio: "Set to inherit a fortune but lived in constant fear. Desperate to escape Ashwin's psychological control and the dark artifact he possessed.",
+      image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=400&fit=crop",
+      questionsRemaining: 3
+    },
+    {
+      id: "suspect2",
+      name: "Rohan Varma",
+      role: "Struggling Artist",
+      bio: "Driven by vengeance after Ashwin ruined his career by stealing his art. Believes a cursed artwork is responsible for his misfortunes.",
+      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop",
+      questionsRemaining: 3
+    },
+    {
+      id: "suspect3",
+      name: "Arjun Mehra",
+      role: "Duplicitous Partner",
+      bio: "Business partner on the brink of ruin. Ashwin was about to expose his massive financial fraud and ties to a secret society.",
+      image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop",
+      questionsRemaining: 3
+    },
+    {
+      id: "suspect4",
+      name: "Priya Deshpande",
+      role: "Secretive Housekeeper",
+      bio: "Has intimate knowledge of the house and its secrets. Years of blackmail by Ashwin over a tragic secret kept her enslaved.",
+      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop",
+      questionsRemaining: 3
+    }
+  ],
+  correctSuspect: "suspect4" // Priya Deshpande is the killer
+};
+
+export const allCases = [mysteryCase, househelpCase];
