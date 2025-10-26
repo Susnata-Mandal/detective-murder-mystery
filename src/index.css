@@ -62,14 +62,14 @@ All colors MUST be HSL.
   }
 
   .case-shivpur {
-    --ring: 160 70% 35%;
+    --ring: 142 76% 45%;
   }
 
   .case-shivpur .noir-glow {
     box-shadow: 
-      0 0 20px hsla(160, 70%, 35%, 0.3),
-      0 0 40px hsla(160, 70%, 35%, 0.15),
-      inset 0 0 60px hsla(160, 70%, 35%, 0.05);
+      0 0 20px hsla(142, 76%, 45%, 0.3),
+      0 0 40px hsla(142, 76%, 45%, 0.15),
+      inset 0 0 60px hsla(142, 76%, 45%, 0.05);
   }
 
   * {
