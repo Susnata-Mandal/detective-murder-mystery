@@ -41,8 +41,7 @@ const Login = () => {
           </div>
 
           <p className="text-muted-foreground text-lg leading-relaxed max-w-md mx-auto">
-            A murder mystery awaits your keen eye. Enter your name to begin your investigation 
-            into the death of Hollywood starlet Victoria Steele.
+            A murder mystery awaits your keen eye. Enter your name to begin your investigation.
           </p>
 
           <div className="space-y-4 pt-6">
